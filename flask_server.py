@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 
@@ -8,6 +8,7 @@ app = Flask(__name__)
 # enable CORS
 CORS(app)
 
+app.config['JSON_AS_ASCII'] = False
 # Required
 # app.config["MYSQL_USER"] = "root"
 # app.config["MYSQL_PASSWORD"] = ""
@@ -30,16 +31,28 @@ Article = [
         'title':'測試文章1標題',
         'author':'高能兒',
         'content':'test content',
-    },{
+        'read':True
+    },
+    {
         'title':'測試文章2標題',
         'author':'高能兒2',
         'content':'test content2',
+        'read':True
+    },
+    {
+        'title':'測試文章3標題',
+        'author':'高能兒3',
+        'content':'test content3',
+        'read':True
     }
 ]
 
-@app.route("/",method=['GET'])
+@app.route("/",methods=['GET'])
 def home():
-    return "Hello World"
+    response_object = {'status':'success'}
+    if request.method == 'GET':
+        response_object['article'] = Article # type: ignore    
+    return jsonify(response_object)
 
 
 if __name__ == "__main__":
