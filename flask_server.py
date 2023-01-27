@@ -47,7 +47,7 @@ Article = [
     }
 ]
 
-@app.route("/",methods=['GET'])
+@app.route("/")
 def home():
     response_object = {'status':'success'}
     if request.method == 'GET':
